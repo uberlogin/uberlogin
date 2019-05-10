@@ -1,3 +1,5 @@
+This is a fork of [SuperLogin](https://github.com/colinskow/superlogin), that aims to be node 10 compatible
+
 # SuperLogin
 
 [![Build Status](https://travis-ci.org/colinskow/superlogin.png?branch=master)](https://travis-ci.org/colinskow/superlogin)
