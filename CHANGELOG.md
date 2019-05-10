@@ -1,5 +1,10 @@
 ## Change Log
 
+#### Node 10 Support (0.7.0) 2019-05-10
+* Added Support for PouchDB 7
+* Added Node 10 support
+* Updated Dependancies
+
 #### Misc. Bug Fixes (0.6.1) 2016-04-02
 * Misc bugfixes
 * Documentation improvements
