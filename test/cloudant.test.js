@@ -1,8 +1,13 @@
 'use strict';
+var path = require('path');
 var PouchDB = require('pouchdb');
 var BPromise = require('bluebird');
 var expect = require('chai').expect;
 var cloudant = require('../lib/dbauth/cloudant');
+require('dotenv').config({
+  silent: true,
+  path: path.join(__dirname, '../.env')
+});
 
 var cloudantUrl = 'https://' + process.env.CLOUDANT_USER + ':' + process.env.CLOUDANT_PASS + '@' + process.env.CLOUDANT_USER + '.cloudant.com';
 var testDB;
