@@ -67,19 +67,24 @@ describe('SuperLogin', function() {
       });
   });
 
-  it('should create a new user', function() {
+  it('should create a new user', function(done) {
     return previous.then(function() {
       return new BPromise(function(resolve, reject) {
         request
           .post(server + '/auth/register')
           .send(newUser)
           .end(function(err, res) {
-            if (err) return reject(err);
+            if (err) {
+              return reject(err);
+            }
             expect(res.status).to.equal(201);
             expect(res.body.success).to.equal('User created.');
-            // console.log('User created');
             resolve();
           });
+      }).then(function () {
+        done();
+      }).catch(function (error) {
+        done(error);
       });
     });
   });

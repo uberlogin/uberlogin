@@ -5,7 +5,7 @@ var gulp   = require('gulp'),
 
 gulp.task('lint', function() {
   return gulp.src(['./lib/**/*.js', './test/*.js'])
-    .pipe(jshint({node: true, mocha: true}))
+    .pipe(jshint({node: true, mocha: true, esversion: 6}))
     .pipe(jshint.reporter(stylish))
     .pipe(jshint.reporter('fail'));
 });

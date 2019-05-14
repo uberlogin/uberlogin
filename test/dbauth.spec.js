@@ -62,13 +62,14 @@ describe('DBAuth', function() {
   });
 
   it('should generate a database access key', function() {
+    this.timeout(5000);
     previous = BPromise.resolve();
     return previous
       .then(function() {
         return seed(userDB, userDesign);
       })
       .then(function() {
-        return dbAuth.storeKey(testUser._id, 'testkey', 'testpass', Date.now() + 60000, testUser.roles);
+        return dbAuth.storeKey(testUser._id, 'testkey', 'testpass', Date.now() + (60 * 1000), testUser.roles);
       })
       .then(function(newKey){
         key = newKey;
@@ -136,7 +137,7 @@ describe('DBAuth', function() {
       });
   });
 
-  it('should create a new user database', function() {
+  it('should create a new user database', function(done) {
     var userDoc = {
       _id: 'TEST.user-31@cool.com',
       session: {
@@ -145,7 +146,7 @@ describe('DBAuth', function() {
       }
     };
     var newDB;
-    return previous
+    previous
       .then(function() {
         return dbAuth.addUserDB(userDoc, 'personal', ['test'], 'private', [], ['admin_role'], ['member_role']);
       })
@@ -162,17 +163,23 @@ describe('DBAuth', function() {
       .then(function(design){
         expect(design.views.mytest.map).to.be.a('string');
         return newDB.destroy();
+      })
+      .then(() => {
+        done();
+      })
+      .catch((error) => {
+        done(error);
       });
   });
 
-  it('should delete all expired keys', function() {
+  it('should delete all expired keys', function(done) {
     var now = Date.now();
     var db1, db2;
     var user1 = {
       _id: 'testuser1',
       session: {
-        oldkey1: {expires: now + 50000},
-        goodkey1: {expires: now + 50000}
+        oldkey1: {expires: now + (50 * 1000)},
+        goodkey1: {expires: now + (50 * 1000)}
       },
       personalDBs: {'test_expiretest$testuser1': {
         permissions: null,
@@ -263,6 +270,12 @@ describe('DBAuth', function() {
         /* jshint +W030 */
         // Finally clean up
         return BPromise.all([db1.destroy(), db2.destroy()]);
+      })
+      .then(function () {
+        done();
+      })
+      .catch((error) => {
+        done(error);
       });
   });
 
