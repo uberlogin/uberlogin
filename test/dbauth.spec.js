@@ -173,6 +173,7 @@ describe('DBAuth', function() {
   });
 
   it('should delete all expired keys', function(done) {
+    this.timeout(5000);
     var now = Date.now();
     var db1, db2;
     var user1 = {
@@ -199,7 +200,7 @@ describe('DBAuth', function() {
       }}
     };
 
-    return previous
+    previous
       .then(function() {
         var promises = [];
         // Save the users

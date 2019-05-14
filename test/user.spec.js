@@ -155,7 +155,7 @@ describe('User Model', function() {
   });
 
   it('should save a new user', function() {
-    // console.log('Creating User');
+    this.timeout(5000);
     var emitterPromise = new BPromise(function(resolve) {
       emitter.once('signup', function(user) {
         expect(user._id).to.equal('superuser');
@@ -196,6 +196,7 @@ describe('User Model', function() {
   });
 
   it('should have created a user db with design doc and _security', function() {
+    this.timeout(5000);
     // console.log('Checking user db and design doc');
     userTestDB = new PouchDB(dbUrl + '/test_usertest$superuser');
     return previous
@@ -213,6 +214,7 @@ describe('User Model', function() {
   });
 
   it('should authenticate the password', function() {
+    this.timeout(5000);
     // console.log('Authenticating password');
     return previous.then(function() {
       // console.log('Fetching created user');
@@ -227,6 +229,7 @@ describe('User Model', function() {
   });
 
   it('should generate a validation error trying to save the same user again', function() {
+    this.timeout(5000);
     return previous.then(function() {
       // console.log('Trying to create the user again');
       return user.create(testUserForm);
@@ -247,6 +250,7 @@ describe('User Model', function() {
   var sessionKey, sessionPass, firstExpires;
 
   it('should generate a new session for the user', function() {
+    this.timeout(5000);
     var emitterPromise = new BPromise(function(resolve) {
       emitter.once('login', function(session) {
         expect(session.user_id).to.equal('superuser');
@@ -344,6 +348,7 @@ describe('User Model', function() {
   });
 
   it('should log the user out of all sessions', function() {
+    this.timeout(5000);
     var emitterPromise = new BPromise(function(resolve) {
       emitter.once('logout-all', function(user_id) {
         expect(user_id).to.equal('superuser');
@@ -569,6 +574,7 @@ describe('User Model', function() {
   });
 
   it('should create a new account from facebook auth', function() {
+    this.timeout(5000);
     var emitterPromise = new BPromise(function(resolve) {
       emitter.once('signup', function(user) {
         expect(user._id).to.equal('misterx');
@@ -640,7 +646,8 @@ describe('User Model', function() {
       });
   });
 
-  it('should generate a username in case of conflict', function() {
+  it('should generate a username in case of conflict', function(done) {
+    this.timeout(5000);
     var auth = {token: 'y'};
     var profile = {
       id: 'cde456',
@@ -653,7 +660,7 @@ describe('User Model', function() {
       {_id: 'misterx4'}
     ];
 
-    return previous
+    previous
       .then(function() {
         // console.log('Generating username after conflict');
         userDB.bulkDocs(docs);
@@ -663,6 +670,12 @@ describe('User Model', function() {
       })
       .then(function(result) {
         expect(result._id).to.equal('misterx3');
+      })
+      .then(function() {
+        done();
+      })
+      .catch(function(err) {
+        done(err);
       });
   });
 

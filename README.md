@@ -521,3 +521,20 @@ Moved to [CHANGELOG.md](https://github.com/colinskow/superlogin/blob/master/CHAN
 - Install Redis https://github.com/microsoftarchive/redis/releases
 - Install CouchDB http://couchdb.apache.org/#download
 - run ```npm test```
+
+- ps includes npm pack-ed pouchdb-seed-design
+
+## Trouble shooting when migrating from old couchdb
+
+```
+{
+  "id": "_design/auth",
+  "error": "invalid_design_doc",
+  "reason": "`views.facebook` field must have object type",
+  "name": "invalid_design_doc",
+  "status": 500,
+  "message": "`views.facebook` field must have object type"
+}
+```
+
+mean view functions, need moved into object with map key typically

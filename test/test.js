@@ -68,7 +68,7 @@ describe('SuperLogin', function() {
   });
 
   it('should create a new user', function(done) {
-    return previous.then(function() {
+    previous.then(function() {
       return new BPromise(function(resolve, reject) {
         request
           .post(server + '/auth/register')
